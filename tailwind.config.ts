@@ -39,6 +39,10 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
         popover: {
           DEFAULT: "hsl(var(--popover))",
           foreground: "hsl(var(--popover-foreground))",
@@ -47,15 +51,17 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+        violet: {
+          deep: "hsl(var(--violet-deep))",
+          light: "hsl(var(--violet-light))",
+        },
+        gold: {
+          warm: "hsl(var(--gold-warm))",
+          light: "hsl(var(--gold-light))",
+        },
+        emerald: {
+          deep: "hsl(var(--emerald-deep))",
+          bright: "hsl(var(--emerald-bright))",
         },
       },
       borderRadius: {
@@ -84,6 +90,12 @@ export default {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "pulse-sacred": "pulse-sacred 3s ease-in-out infinite",
+        "float": "float 6s ease-in-out infinite",
+        "fade-slide-up": "fade-slide-up 0.6s ease-out forwards",
+      },
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
       },
     },
   },
