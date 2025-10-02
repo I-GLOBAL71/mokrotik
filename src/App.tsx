@@ -10,6 +10,7 @@ import Success from "./pages/Success";
 import Account from "./pages/Account";
 import Ambassador from "./pages/Ambassador";
 import Admin from "./pages/Admin";
+import RedeemCode from "./pages/RedeemCode";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/account" element={<Account />} />
           <Route path="/ambassador" element={<Ambassador />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/redeem-code" element={<RedeemCode />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

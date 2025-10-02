@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { 
   DollarSign, 
   Users, 
@@ -12,8 +14,13 @@ import {
   BarChart3
 } from "lucide-react";
 import Logo from "@/components/Logo";
+import PackagesAdmin from "./admin/PackagesAdmin";
+import UsersAdmin from "./admin/UsersAdmin";
+import AmbassadorsAdmin from "./admin/AmbassadorsAdmin";
 
 const Admin = () => {
+  const [activeTab, setActiveTab] = useState("dashboard");
+  
   // Données simulées
   const stats = {
     todayRevenue: 45000,
@@ -75,14 +82,31 @@ const Admin = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <div className="space-y-8">
-          {/* Page Title */}
-          <div className="flex items-center justify-between">
-            <h1 className="text-white text-3xl md:text-4xl font-bold">Dashboard Administrateur</h1>
-            <div className="text-white/70 text-sm">
-              Dernière mise à jour : {new Date().toLocaleTimeString('fr-FR')}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="bg-white/10 border border-white/20">
+            <TabsTrigger value="dashboard" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="packages" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+              Forfaits
+            </TabsTrigger>
+            <TabsTrigger value="users" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+              Utilisateurs
+            </TabsTrigger>
+            <TabsTrigger value="ambassadors" className="data-[state=active]:bg-primary data-[state=active]:text-white">
+              Ambassadeurs
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Dashboard Tab */}
+          <TabsContent value="dashboard" className="space-y-8">
+            {/* Page Title */}
+            <div className="flex items-center justify-between">
+              <h1 className="text-white text-3xl md:text-4xl font-bold">Dashboard Administrateur</h1>
+              <div className="text-white/70 text-sm">
+                Dernière mise à jour : {new Date().toLocaleTimeString('fr-FR')}
+              </div>
             </div>
-          </div>
 
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -221,7 +245,23 @@ const Admin = () => {
               </Card>
             </div>
           </div>
-        </div>
+          </TabsContent>
+
+          {/* Packages Tab */}
+          <TabsContent value="packages">
+            <PackagesAdmin />
+          </TabsContent>
+
+          {/* Users Tab */}
+          <TabsContent value="users">
+            <UsersAdmin />
+          </TabsContent>
+
+          {/* Ambassadors Tab */}
+          <TabsContent value="ambassadors">
+            <AmbassadorsAdmin />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
