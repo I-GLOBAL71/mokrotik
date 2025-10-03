@@ -1,14 +1,17 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Copy, Share2, TrendingUp, Users, DollarSign, Link as LinkIcon } from "lucide-react";
+import { ArrowLeft, Copy, Share2, TrendingUp, Users, DollarSign, Link as LinkIcon, LogOut } from "lucide-react";
 import BackgroundEffects from "@/components/BackgroundEffects";
 import Logo from "@/components/Logo";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { signInWithGoogle, signOut } from "@/lib/auth";
 
 const Ambassador = () => {
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
   const [ambassadorCode] = useState("JD843K");
   const [ambassadorLink] = useState(`wifi.cm/amb/${ambassadorCode}`);
 
@@ -48,6 +51,62 @@ const Ambassador = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const { error } = await signInWithGoogle();
+    if (error) {
+      toast.error("Erreur de connexion");
+    }
+  };
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast.error("Erreur de déconnexion");
+    } else {
+      navigate('/');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
+        <BackgroundEffects />
+        <div className="text-white text-xl">Chargement...</div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-gradient-dark relative overflow-hidden">
+        <BackgroundEffects />
+        
+        <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-4">
+          <div className="mb-12">
+            <Logo animated />
+          </div>
+          
+          <Card className="glass p-8 max-w-md w-full text-center">
+            <div className="w-16 h-16 rounded-full bg-gold-warm/20 flex items-center justify-center mx-auto mb-6">
+              <DollarSign className="text-gold-warm" size={32} />
+            </div>
+            <h1 className="text-white text-2xl font-bold mb-4">Espace Ambassadeur</h1>
+            <p className="text-white/70 mb-8">
+              Connectez-vous avec votre compte Google pour accéder à votre tableau de bord ambassadeur
+            </p>
+            <Button
+              onClick={handleGoogleSignIn}
+              className="w-full h-14 bg-white text-primary hover:bg-white/90 font-semibold text-lg"
+            >
+              <Share2 className="mr-2" size={20} />
+              Se connecter avec Google
+            </Button>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       <BackgroundEffects />
@@ -57,14 +116,25 @@ const Ambassador = () => {
         <div className="max-w-4xl mx-auto mb-8 flex items-center justify-between">
           <Button
             variant="ghost"
-            onClick={() => navigate("/account")}
+            onClick={() => navigate("/")}
             className="text-white hover:bg-white/10 transition-smooth"
           >
             <ArrowLeft className="mr-2" size={20} />
-            Mon Compte
+            Accueil
           </Button>
           
-          <Logo size="sm" />
+          <div className="flex items-center gap-4">
+            <Logo size="sm" />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleSignOut}
+              className="text-white/80 hover:text-white hover:bg-white/10"
+            >
+              <LogOut size={18} className="mr-2" />
+              Déconnexion
+            </Button>
+          </div>
         </div>
 
         {/* Contenu */}

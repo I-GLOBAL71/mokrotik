@@ -11,15 +11,30 @@ import {
   AlertCircle,
   Plus,
   Settings,
-  BarChart3
+  BarChart3,
+  LogOut
 } from "lucide-react";
 import Logo from "@/components/Logo";
 import PackagesAdmin from "./admin/PackagesAdmin";
 import UsersAdmin from "./admin/UsersAdmin";
 import AmbassadorsAdmin from "./admin/AmbassadorsAdmin";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { useNavigate } from "react-router-dom";
+import { signOut } from "@/lib/auth";
+import { toast } from "sonner";
 
 const Admin = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast.error("Erreur de déconnexion");
+    } else {
+      navigate('/');
+    }
+  };
   
   // Données simulées
   const stats = {
@@ -45,7 +60,8 @@ const Admin = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-wisdom">
+    <ProtectedRoute requireAdmin>
+      <div className="min-h-screen bg-gradient-wisdom">
       {/* Header */}
       <header className="bg-card/80 backdrop-blur border-b border-border/50">
         <div className="container mx-auto px-4 py-4">
@@ -72,9 +88,10 @@ const Admin = () => {
               <Button variant="ghost" size="icon">
                 <Settings size={20} />
               </Button>
-              <div className="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold">
-                A
-              </div>
+              <Button variant="ghost" size="sm" onClick={handleSignOut} className="text-foreground hover:text-primary">
+                <LogOut size={18} className="mr-2" />
+                Déconnexion
+              </Button>
             </div>
           </div>
         </div>
@@ -263,7 +280,8 @@ const Admin = () => {
           </TabsContent>
         </Tabs>
       </main>
-    </div>
+      </div>
+    </ProtectedRoute>
   );
 };
 
